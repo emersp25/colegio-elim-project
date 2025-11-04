@@ -15,22 +15,59 @@ export default function ContactForm() {
         type: null,
         message: ''
     })
+    const [phoneError, setPhoneError] = useState('')
+
+    // Solo números, máx 8 y mensaje
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const valorOriginal = e.target.value
+        const soloNumeros = valorOriginal.replace(/\D/g, '').slice(0, 8)
+
+        setContactForm((prev) => ({ ...prev, telefono: soloNumeros }))
+
+        // validaciones instantáneas
+        if (!soloNumeros) {
+            setPhoneError('El teléfono es obligatorio')
+        } else if (valorOriginal !== soloNumeros) {
+            setPhoneError('Solo se permiten números (máx. 8)')
+        } else if (soloNumeros.length < 8) {
+            setPhoneError('El teléfono debe tener 8 dígitos')
+        } else {
+            setPhoneError('')
+        }
+    }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setIsSubmitting(true)
         setFormStatus({ type: null, message: '' })
 
+        // nombre
         if (!contactForm.nombre.trim()) {
             setFormStatus({ type: 'error', message: 'El nombre es requerido' })
             setIsSubmitting(false)
             return
         }
+        // email
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactForm.email)) {
             setFormStatus({ type: 'error', message: 'Email inválido' })
             setIsSubmitting(false)
             return
         }
+        // teléfono obligatorio
+        if (!contactForm.telefono) {
+            setPhoneError('El teléfono es obligatorio')
+            setFormStatus({ type: 'error', message: 'Revisa el teléfono' })
+            setIsSubmitting(false)
+            return
+        }
+        // teléfono de 8 dígitos exactos
+        if (contactForm.telefono.length !== 8) {
+            setPhoneError('El teléfono debe tener exactamente 8 dígitos')
+            setFormStatus({ type: 'error', message: 'Revisa el teléfono' })
+            setIsSubmitting(false)
+            return
+        }
+        // mensaje
         if (!contactForm.mensaje.trim()) {
             setFormStatus({ type: 'error', message: 'El mensaje es requerido' })
             setIsSubmitting(false)
@@ -44,6 +81,7 @@ export default function ContactForm() {
                 message: '¡Mensaje enviado con éxito! Nos contactaremos pronto.'
             })
             setContactForm({ nombre: '', email: '', telefono: '', mensaje: '' })
+            setPhoneError('')
         } catch (err) {
             setFormStatus({
                 type: 'error',
@@ -90,17 +128,29 @@ export default function ContactForm() {
 
                 <div>
                     <label htmlFor="telefono" className="block text-sm font-bold text-gray-700 mb-2">
-                        Teléfono
+                        Teléfono *
                     </label>
                     <input
                         id="telefono"
                         type="tel"
                         value={contactForm.telefono}
-                        onChange={(e) => setContactForm({ ...contactForm, telefono: e.target.value })}
-                        className="w-full px-5 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 outline-none transition-all text-lg"
-                        placeholder="+502 0000-0000"
+                        onChange={handlePhoneChange}
+                        className={`w-full px-5 py-4 border-2 rounded-xl focus:ring-2 outline-none transition-all text-lg ${
+                            phoneError
+                                ? 'border-red-400 focus:border-red-500 focus:ring-red-200'
+                                : 'border-gray-300 focus:border-yellow-500 focus:ring-yellow-200'
+                        }`}
+                        placeholder="00000000"
                         disabled={isSubmitting}
+                        inputMode="numeric"
+                        pattern="[0-9]*"
                     />
+                    {phoneError && (
+                        <p className="mt-2 text-sm text-red-600 flex items-center gap-1">
+                            <AlertCircle className="w-4 h-4" />
+                            {phoneError}
+                        </p>
+                    )}
                 </div>
 
                 <div>
