@@ -5,40 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4d20141e-0f36-4981-aff3-d21134fdc907" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/postcss.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/Logo_Elim.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/basicos.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/diver.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/pre_primaria.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/primaria.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/ContactForm.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Footer.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/NavBar.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/PrivateRoute.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/AdminContactTab.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/AdminCoursesTab.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/AdminEnrollmentsTab.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/AdminGradesTab.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/admin/AdminUsersTab.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/context/AuthContext.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/DashboardAdmin.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/DashboardAlumno.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/DashboardProfesor.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/types.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/tailwind.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/prof/ProfCursos.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/prof/ProfEntregas.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/prof/ProfResumen.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/prof/ProfTareas.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/CursoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/CursoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/DashboardController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/InscripcionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/InscripcionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/security/UserDetailsServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/security/UserDetailsServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Landing.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Landing.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/EntregaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/EntregaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/TareaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/TareaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/repository/EntregaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/repository/EntregaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/repository/TareaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/repository/TareaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/admin/AdminUsersTab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/admin/AdminUsersTab.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/DashboardProfesor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DashboardProfesor.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -218,7 +197,7 @@
       <workItem from="1762102492262" duration="62000" />
       <workItem from="1762102571548" duration="415000" />
       <workItem from="1762102992129" duration="30312000" />
-      <workItem from="1762215514836" duration="22692000" />
+      <workItem from="1762215514836" duration="25851000" />
     </task>
     <servers />
   </component>

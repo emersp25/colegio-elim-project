@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 
@@ -183,5 +184,31 @@ public class CursoController {
         if (!cursoRepo.existsById(id)) return ResponseEntity.notFound().build();
         cursoRepo.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // ASIGNARME como profesor (ADMIN o PROFESOR)
+    @PutMapping("/{id}/asignarme")
+    @PreAuthorize("hasAnyRole('ADMIN','PROFESOR')")
+    public ResponseEntity<?> asignarme(@PathVariable Long id, Authentication auth) {
+        return cursoRepo.findById(id).map(curso -> {
+            if (Boolean.FALSE.equals(curso.getActivo())) {
+                return ResponseEntity.badRequest().body("El curso está inactivo");
+            }
+
+            // usuario actual
+            Usuario actual = usuarioRepo.findByUsername(auth.getName())
+                    .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+
+            // si no es admin, debe ser PROFESOR
+            if (!isAdmin(auth) && !isProf(auth)) {
+                return ResponseEntity.status(403).body("Solo profesores pueden asignarse");
+            }
+
+            // reasignar
+            curso.setProfesor(actual);
+            cursoRepo.save(curso);
+
+            return ResponseEntity.ok(toListDTO(curso));
+        }).orElse(ResponseEntity.notFound().build());
     }
 }

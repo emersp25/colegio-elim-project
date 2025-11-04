@@ -2,12 +2,22 @@ package com.colegio.elim.repository;
 
 import com.colegio.elim.model.entity.Entrega;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface EntregaRepository extends JpaRepository<Entrega, Long> {
-    Optional<Entrega> findByTarea_IdAndAlumno_Id(Long tareaId, Long alumnoId);
+
+    // entregas de una tarea
     List<Entrega> findByTarea_Id(Long tareaId);
-    List<Entrega> findByAlumno_Id(Long alumnoId);
+
+    // entregas de tareas de un profesor
+    @Query("""
+       select e from Entrega e
+       where e.tarea.curso.profesor.username = :profUsername
+       """)
+    List<Entrega> findByProfesor(String profUsername);
+
+    // una entrega puntual del alumno sobre la tarea
+    boolean existsByTarea_IdAndAlumno_Username(Long tareaId, String username);
 }

@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/contacto").permitAll()
                 .requestMatchers("/api/contacto/**").hasRole("ADMIN")
 
-                // Dashboards por rol (coinciden con la BD: ADMIN, PROFESOR, ALUMNO)
+                // Dashboards por rol
                 .requestMatchers("/api/dashboard/admin").hasRole("ADMIN")
                 .requestMatchers("/api/dashboard/profesor").hasRole("PROFESOR")
                 .requestMatchers("/api/dashboard/alumno").hasRole("ALUMNO")
@@ -62,14 +62,20 @@ public class SecurityConfig {
                 // Usuarios: solo ADMIN
                 .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
 
-                // Cursos: admin, profesor y alumno (el propio controller ya filtra lo que cada uno ve)
+                // Cursos: admin, profesor y alumno
                 .requestMatchers("/api/cursos/**").hasAnyRole("ADMIN","PROFESOR","ALUMNO")
 
-                // Inscripciones: admin, profesor y alumno (el controller ya valida dueño/propio)
+                // Inscripciones: admin, profesor y alumno
                 .requestMatchers("/api/inscripciones/**").hasAnyRole("ADMIN","PROFESOR","ALUMNO")
 
-                // Grados: lo dejamos solo para admin
+                // Grados: solo admin
                 .requestMatchers("/api/grados/**").hasRole("ADMIN")
+
+                // 🔥 NUEVO: tareas (crear/ver) -> admin y profesor, y alumno puede ver/listar las suyas
+                .requestMatchers("/api/tareas/**").hasAnyRole("ADMIN","PROFESOR","ALUMNO")
+
+                // 🔥 NUEVO: entregas (alumno entrega, prof califica)
+                .requestMatchers("/api/entregas/**").hasAnyRole("ADMIN","PROFESOR","ALUMNO")
 
                 // cualquier otra cosa: autenticado
                 .anyRequest().authenticated()
