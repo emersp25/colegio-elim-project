@@ -2,11 +2,13 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import ContactForm from '../components/ContactForm'
+import PhotoCarousel from '../components/PhotoCarousel'
 import logoElim from '../assets/Logo_Elim.png'
 import prePrimaria from '../assets/pre_primaria.jpg'
 import PrimariaNiños from '../assets/primaria.jpg'
 import Basicos from '../assets/basicos.jpg'
 import Diversificado from '../assets/diver.jpg'
+import instalaciones from '../assets/instalaciones.jpg'
 import { Target, Eye, CheckCircle, MapPin, Phone, Mail, Facebook, Instagram } from 'lucide-react'
 
 export default function Landing() {
@@ -52,6 +54,35 @@ export default function Landing() {
         },
     ]
 
+    // Carrusel
+    const carouselImages = [
+        {
+            src: prePrimaria,
+            alt: 'Pre primaria',
+            caption: 'Aprendiendo con amor y juegos',
+        },
+        {
+            src: PrimariaNiños,
+            alt: 'Primaria',
+            caption: 'Formación integral y valores cristianos',
+        },
+        {
+            src: Basicos,
+            alt: 'Básicos',
+            caption: 'Desarrollo académico y tecnológico',
+        },
+        {
+            src: Diversificado,
+            alt: 'Diversificado',
+            caption: 'Listos para la universidad',
+        },
+        {
+            src: instalaciones,
+            alt: 'instalaciones',
+            caption: 'Instalaciones modernas y seguras',
+        },
+    ]
+
     return (
         <main className="pt-20 bg-white">
             {/* hero */}
@@ -72,6 +103,11 @@ export default function Landing() {
                         <p className="text-xl sm:text-2xl text-blue-50 max-w-3xl mx-auto mb-10 leading-relaxed">
                             Formando líderes del mañana con excelencia académica, valores cristianos y compromiso social
                         </p>
+                    </div>
+
+                    {/* 👇 carrusel agregado debajo del texto del hero */}
+                    <div className="mt-10">
+                        <PhotoCarousel images={carouselImages} autoPlay interval={5000} />
                     </div>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0">
@@ -106,7 +142,11 @@ export default function Landing() {
                                 className="group relative bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-2 border-2 border-gray-100"
                             >
                                 <div className="relative h-48 overflow-hidden">
-                                    <img src={s.image} alt={s.title} className="w-full h-full object-cover group-hover:scale-110 transition" />
+                                    <img
+                                        src={s.image}
+                                        alt={s.title}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition"
+                                    />
                                     <div className={`absolute inset-0 bg-gradient-to-t ${s.color} opacity-60`} />
                                     <div className="absolute bottom-4 left-4 right-4">
                                         <h3 className="text-2xl font-bold text-white drop-shadow-lg">{s.title}</h3>
