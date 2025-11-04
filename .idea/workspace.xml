@@ -5,19 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4d20141e-0f36-4981-aff3-d21134fdc907" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/prof/ProfCursos.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/prof/ProfEntregas.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/prof/ProfResumen.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/prof/ProfTareas.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/CursoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/CursoController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/EntregaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/EntregaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/TareaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/TareaController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/repository/EntregaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/repository/EntregaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/repository/TareaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/repository/TareaRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/admin/AdminUsersTab.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/admin/AdminUsersTab.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/DashboardProfesor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DashboardProfesor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/NotaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/controller/NotaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/repository/NotaRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/colegio/elim/repository/NotaRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/DashboardAlumno.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/DashboardAlumno.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,7 +190,7 @@
       <workItem from="1762102492262" duration="62000" />
       <workItem from="1762102571548" duration="415000" />
       <workItem from="1762102992129" duration="30312000" />
-      <workItem from="1762215514836" duration="25851000" />
+      <workItem from="1762215514836" duration="29945000" />
     </task>
     <servers />
   </component>

@@ -18,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 
@@ -33,7 +32,7 @@ public class CursoController {
     private final UsuarioRepository usuarioRepo;
     private final InscripcionRepository inscripcionRepo;
 
-    // Helpers de rol (ahora sí con los nombres que tienes en BD)
+    // Helpers de rol (NOMBRES NUEVOS)
     private boolean isAdmin(Authentication auth) {
         return auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
@@ -82,7 +81,6 @@ public class CursoController {
         return page.map(this::toListDTO);
     }
 
-    // DETALLE con autorización fina
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','PROFESOR','ALUMNO')")
     public ResponseEntity<?> detalle(@PathVariable Long id, Authentication auth) {
@@ -108,7 +106,6 @@ public class CursoController {
         return ResponseEntity.status(403).build();
     }
 
-    // CREAR: ADMIN asigna profesor; PROF se autoasigna
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN','PROFESOR')")
     public ResponseEntity<?> crear(@Valid @RequestBody CursoCreateDTO body, Authentication auth) {
@@ -117,11 +114,9 @@ public class CursoController {
 
         Usuario profesor;
         if (isProf(auth) && !isAdmin(auth)) {
-            // profesor crea curso -> se asigna a sí mismo
             profesor = usuarioRepo.findByUsername(auth.getName())
                     .orElseThrow(() -> new IllegalArgumentException("Profesor actual no encontrado"));
         } else {
-            // admin debe mandar profesorUsername
             if (body.getProfesorUsername() == null || body.getProfesorUsername().isBlank()) {
                 return ResponseEntity.badRequest().body("profesorUsername es requerido para ADMIN");
             }
@@ -141,12 +136,10 @@ public class CursoController {
         return ResponseEntity.ok(toListDTO(c));
     }
 
-    // ACTUALIZAR: ADMIN todo; PROF solo si es dueño y sin cambiar profesor
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ADMIN','PROFESOR')")
     public ResponseEntity<?> actualizar(@PathVariable Long id, @Valid @RequestBody CursoUpdateDTO body, Authentication auth) {
         return cursoRepo.findById(id).map(c -> {
-            // si es profe y no admin, solo puede tocar su curso
             if (isProf(auth) && !isAdmin(auth)) {
                 if (c.getProfesor() == null || !auth.getName().equals(c.getProfesor().getUsername())) {
                     return ResponseEntity.status(403).body("No puedes modificar cursos de otros profesores");
@@ -177,38 +170,11 @@ public class CursoController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    // ELIMINAR (solo ADMIN)
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
         if (!cursoRepo.existsById(id)) return ResponseEntity.notFound().build();
         cursoRepo.deleteById(id);
         return ResponseEntity.noContent().build();
-    }
-
-    // ASIGNARME como profesor (ADMIN o PROFESOR)
-    @PutMapping("/{id}/asignarme")
-    @PreAuthorize("hasAnyRole('ADMIN','PROFESOR')")
-    public ResponseEntity<?> asignarme(@PathVariable Long id, Authentication auth) {
-        return cursoRepo.findById(id).map(curso -> {
-            if (Boolean.FALSE.equals(curso.getActivo())) {
-                return ResponseEntity.badRequest().body("El curso está inactivo");
-            }
-
-            // usuario actual
-            Usuario actual = usuarioRepo.findByUsername(auth.getName())
-                    .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
-            // si no es admin, debe ser PROFESOR
-            if (!isAdmin(auth) && !isProf(auth)) {
-                return ResponseEntity.status(403).body("Solo profesores pueden asignarse");
-            }
-
-            // reasignar
-            curso.setProfesor(actual);
-            cursoRepo.save(curso);
-
-            return ResponseEntity.ok(toListDTO(curso));
-        }).orElse(ResponseEntity.notFound().build());
     }
 }
