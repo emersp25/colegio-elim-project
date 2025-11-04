@@ -32,15 +32,15 @@ public class CursoController {
     private final UsuarioRepository usuarioRepo;
     private final InscripcionRepository inscripcionRepo;
 
-    // Helpers de rol
+    // Helpers de rol (ahora sí con los nombres que tienes en BD)
     private boolean isAdmin(Authentication auth) {
         return auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
     }
     private boolean isProf(Authentication auth) {
-        return auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_PROF"));
+        return auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_PROFESOR"));
     }
     private boolean isAlumno(Authentication auth) {
-        return auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ALUM"));
+        return auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ALUMNO"));
     }
 
     // Mapper a DTO de lista (contando solo inscripciones ACTIVAS)
@@ -61,7 +61,7 @@ public class CursoController {
 
     // LISTADO por rol: ADMIN todos; PROF sus cursos; ALUM sus inscritos
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN','PROF','ALUM')")
+    @PreAuthorize("hasAnyRole('ADMIN','PROFESOR','ALUMNO')")
     public Page<CursoListDTO> listar(
             @RequestParam(required = false) String q,
             @RequestParam(required = false) Long gradoId,
@@ -75,6 +75,7 @@ public class CursoController {
         } else if (isProf(auth)) {
             page = cursoRepo.searchByProfesor(auth.getName(), q, gradoId, activo, pageable);
         } else {
+            // alumno
             page = cursoRepo.searchByAlumno(auth.getName(), q, gradoId, activo, pageable);
         }
         return page.map(this::toListDTO);
@@ -82,7 +83,7 @@ public class CursoController {
 
     // DETALLE con autorización fina
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','PROF','ALUM')")
+    @PreAuthorize("hasAnyRole('ADMIN','PROFESOR','ALUMNO')")
     public ResponseEntity<?> detalle(@PathVariable Long id, Authentication auth) {
         Optional<Curso> oc = cursoRepo.findById(id);
         if (oc.isEmpty()) return ResponseEntity.notFound().build();
@@ -108,16 +109,18 @@ public class CursoController {
 
     // CREAR: ADMIN asigna profesor; PROF se autoasigna
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN','PROF')")
+    @PreAuthorize("hasAnyRole('ADMIN','PROFESOR')")
     public ResponseEntity<?> crear(@Valid @RequestBody CursoCreateDTO body, Authentication auth) {
         Grado grado = gradoRepo.findById(body.getGradoId())
                 .orElseThrow(() -> new IllegalArgumentException("Grado no existe: " + body.getGradoId()));
 
         Usuario profesor;
         if (isProf(auth) && !isAdmin(auth)) {
+            // profesor crea curso -> se asigna a sí mismo
             profesor = usuarioRepo.findByUsername(auth.getName())
                     .orElseThrow(() -> new IllegalArgumentException("Profesor actual no encontrado"));
         } else {
+            // admin debe mandar profesorUsername
             if (body.getProfesorUsername() == null || body.getProfesorUsername().isBlank()) {
                 return ResponseEntity.badRequest().body("profesorUsername es requerido para ADMIN");
             }
@@ -139,9 +142,10 @@ public class CursoController {
 
     // ACTUALIZAR: ADMIN todo; PROF solo si es dueño y sin cambiar profesor
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','PROF')")
+    @PreAuthorize("hasAnyRole('ADMIN','PROFESOR')")
     public ResponseEntity<?> actualizar(@PathVariable Long id, @Valid @RequestBody CursoUpdateDTO body, Authentication auth) {
         return cursoRepo.findById(id).map(c -> {
+            // si es profe y no admin, solo puede tocar su curso
             if (isProf(auth) && !isAdmin(auth)) {
                 if (c.getProfesor() == null || !auth.getName().equals(c.getProfesor().getUsername())) {
                     return ResponseEntity.status(403).body("No puedes modificar cursos de otros profesores");

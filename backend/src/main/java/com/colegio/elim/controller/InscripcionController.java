@@ -29,9 +29,15 @@ public class InscripcionController {
     private final UsuarioRepository usuarioRepo;
     private final CursoRepository cursoRepo;
 
-    private boolean isAdmin(Authentication auth){ return auth.getAuthorities().stream().anyMatch(a->a.getAuthority().equals("ROLE_ADMIN")); }
-    private boolean isProf(Authentication auth){ return auth.getAuthorities().stream().anyMatch(a->a.getAuthority().equals("ROLE_PROF")); }
-    private boolean isAlumno(Authentication auth){ return auth.getAuthorities().stream().anyMatch(a->a.getAuthority().equals("ROLE_ALUM")); }
+    private boolean isAdmin(Authentication auth){
+        return auth.getAuthorities().stream().anyMatch(a->a.getAuthority().equals("ROLE_ADMIN"));
+    }
+    private boolean isProf(Authentication auth){
+        return auth.getAuthorities().stream().anyMatch(a->a.getAuthority().equals("ROLE_PROFESOR"));
+    }
+    private boolean isAlumno(Authentication auth){
+        return auth.getAuthorities().stream().anyMatch(a->a.getAuthority().equals("ROLE_ALUMNO"));
+    }
 
     private InscripcionListDTO toDTO(Inscripcion i){
         String nombreCompleto = ((i.getAlumno().getNombre()!=null ? i.getAlumno().getNombre() : "") + " " +
@@ -49,7 +55,7 @@ public class InscripcionController {
 
     // LISTAR con filtros y paginación
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN','PROF','ALUM')")
+    @PreAuthorize("hasAnyRole('ADMIN','PROFESOR','ALUMNO')")
     public Page<InscripcionListDTO> listar(
             @RequestParam(required=false) String alumnoUsername,
             @RequestParam(required=false) Long cursoId,
@@ -63,14 +69,15 @@ public class InscripcionController {
         } else if (isProf(auth)){
             page = repo.searchByProfesor(auth.getName(), alumnoUsername, cursoId, estado, pageable);
         } else {
+            // alumno
             page = repo.searchByAlumno(auth.getName(), cursoId, estado, pageable);
         }
         return page.map(this::toDTO);
     }
 
-    // AUTO-INSCRIPCIÓN (solo ALUM)
+    // AUTO-INSCRIPCIÓN (solo ALUMNO)
     @PostMapping("/mi")
-    @PreAuthorize("hasRole('ALUM')")
+    @PreAuthorize("hasRole('ALUMNO')")
     public ResponseEntity<?> autoInscribirse(@Valid @RequestBody InscripcionCreateDTO body, Authentication auth){
         Long cursoId = body.getCursoId();
         Curso curso = cursoRepo.findById(cursoId)
@@ -92,9 +99,9 @@ public class InscripcionController {
         return ResponseEntity.ok(toDTO(i));
     }
 
-    // INSCRIBIR A OTRO (ADMIN o PROF del curso)
+    // INSCRIBIR A OTRO (ADMIN o PROFESOR del curso)
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN','PROF')")
+    @PreAuthorize("hasAnyRole('ADMIN','PROFESOR')")
     public ResponseEntity<?> inscribir(@Valid @RequestBody InscripcionCreateDTO body, Authentication auth){
         Long cursoId = body.getCursoId();
         Curso curso = cursoRepo.findById(cursoId)
@@ -103,13 +110,12 @@ public class InscripcionController {
             return ResponseEntity.badRequest().body("Curso inactivo");
         }
 
-        // Si es PROF, debe ser dueño del curso
+        // Si es PROFESOR, debe ser dueño del curso
         if (isProf(auth) && !auth.getName().equals(curso.getProfesor().getUsername())){
             return ResponseEntity.status(403).body("No puedes inscribir en cursos de otros profesores");
         }
 
-        // Resolver alumno: por username del DTO (recomendado).
-        // Si aún usas el record antiguo con alumnoId, cambia aquí a buscar por ID.
+        // Resolver alumno por username (así lo tienes en el DTO)
         String alumnoUsername = body.getAlumnoUsername();
         if (alumnoUsername == null || alumnoUsername.isBlank()){
             return ResponseEntity.badRequest().body("alumnoUsername es requerido");
@@ -132,9 +138,9 @@ public class InscripcionController {
         return ResponseEntity.ok(toDTO(i));
     }
 
-    // DETALLE (ADMIN/PROF dueño/ALUM propio)
+    // DETALLE (ADMIN/PROFESOR dueño/ALUMNO propio)
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','PROF','ALUM')")
+    @PreAuthorize("hasAnyRole('ADMIN','PROFESOR','ALUMNO')")
     public ResponseEntity<?> detalle(@PathVariable Long id, Authentication auth){
         Optional<Inscripcion> oi = repo.findById(id);
         if (oi.isEmpty()) return ResponseEntity.notFound().build();
@@ -149,9 +155,9 @@ public class InscripcionController {
         return ResponseEntity.status(403).build();
     }
 
-    // CANCELAR (estado = CANCELADA). ADMIN o PROF dueño, ALUM solo su insc.
+    // CANCELAR (estado = CANCELADA). ADMIN o PROFESOR dueño, ALUMNO solo su insc.
     @PutMapping("/{id}/cancelar")
-    @PreAuthorize("hasAnyRole('ADMIN','PROF','ALUM')")
+    @PreAuthorize("hasAnyRole('ADMIN','PROFESOR','ALUMNO')")
     public ResponseEntity<?> cancelar(@PathVariable Long id, Authentication auth){
         return repo.findById(id).map(i -> {
             if (isAdmin(auth)

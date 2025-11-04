@@ -50,19 +50,28 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/login", "/api/auth/register", "/api/ping", "/error").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                // Contacto: POST público; el resto solo ADMIN
+                // Contacto: POST público; lo demás admin
                 .requestMatchers(HttpMethod.POST, "/api/contacto").permitAll()
-                .requestMatchers("/api/contacto/**").hasAuthority("ADMIN")
+                .requestMatchers("/api/contacto/**").hasRole("ADMIN")
 
-                // Dashboards por rol (usando lo que está en la BD)
-                .requestMatchers("/api/dashboard/admin").hasAuthority("ADMIN")
-                .requestMatchers("/api/dashboard/profesor").hasAuthority("PROFESOR")
-                .requestMatchers("/api/dashboard/alumno").hasAuthority("ALUMNO")
+                // Dashboards por rol (coinciden con la BD: ADMIN, PROFESOR, ALUMNO)
+                .requestMatchers("/api/dashboard/admin").hasRole("ADMIN")
+                .requestMatchers("/api/dashboard/profesor").hasRole("PROFESOR")
+                .requestMatchers("/api/dashboard/alumno").hasRole("ALUMNO")
 
                 // Usuarios: solo ADMIN
-                .requestMatchers("/api/usuarios/**").hasAuthority("ADMIN")
+                .requestMatchers("/api/usuarios/**").hasRole("ADMIN")
 
-                // Todo lo demás autenticado
+                // Cursos: admin, profesor y alumno (el propio controller ya filtra lo que cada uno ve)
+                .requestMatchers("/api/cursos/**").hasAnyRole("ADMIN","PROFESOR","ALUMNO")
+
+                // Inscripciones: admin, profesor y alumno (el controller ya valida dueño/propio)
+                .requestMatchers("/api/inscripciones/**").hasAnyRole("ADMIN","PROFESOR","ALUMNO")
+
+                // Grados: lo dejamos solo para admin
+                .requestMatchers("/api/grados/**").hasRole("ADMIN")
+
+                // cualquier otra cosa: autenticado
                 .anyRequest().authenticated()
         );
 

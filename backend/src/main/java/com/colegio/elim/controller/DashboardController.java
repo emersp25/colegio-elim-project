@@ -18,7 +18,7 @@ public class DashboardController {
 
     private final DashboardService dashboardService;
 
-    // Si prefieres mantener un único endpoint dinámico:
+    // endpoint dinámico según rol
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> dashboard(Authentication auth) {
@@ -29,30 +29,33 @@ public class DashboardController {
             AdminDashboardDTO dto = dashboardService.admin();
             return ResponseEntity.ok(dto);
         }
-        if (roles.contains("ROLE_PROF")) { // <- corregido: ROLE_PROF
+        if (roles.contains("ROLE_PROFESOR")) {
             ProfesorDashboardDTO dto = dashboardService.profesor(username);
             return ResponseEntity.ok(dto);
         }
-        // Por defecto: ALUMNO (ROLE_ALUM)
-        AlumnoDashboardDTO dto = dashboardService.alumno(username);
-        return ResponseEntity.ok(dto);
+        if (roles.contains("ROLE_ALUMNO")) {
+            AlumnoDashboardDTO dto = dashboardService.alumno(username);
+            return ResponseEntity.ok(dto);
+        }
+
+        return ResponseEntity.status(403).body("Rol no reconocido");
     }
 
-    // (Opcional) Endpoints separados si los usas en frontend:
+    // endpoints separados
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')") // equivale a hasAuthority('ROLE_ADMIN')
     public ResponseEntity<AdminDashboardDTO> admin() {
         return ResponseEntity.ok(dashboardService.admin());
     }
 
     @GetMapping("/profesor")
-    @PreAuthorize("hasRole('PROF')")
-    public ResponseEntity<ProfesorDashboardDTO> prof(Authentication auth) {
+    @PreAuthorize("hasRole('PROFESOR')") // equivale a hasAuthority('ROLE_PROFESOR')
+    public ResponseEntity<ProfesorDashboardDTO> profesor(Authentication auth) {
         return ResponseEntity.ok(dashboardService.profesor(auth.getName()));
     }
 
     @GetMapping("/alumno")
-    @PreAuthorize("hasRole('ALUM')")
+    @PreAuthorize("hasRole('ALUMNO')") // equivale a hasAuthority('ROLE_ALUMNO')
     public ResponseEntity<AlumnoDashboardDTO> alumno(Authentication auth) {
         return ResponseEntity.ok(dashboardService.alumno(auth.getName()));
     }

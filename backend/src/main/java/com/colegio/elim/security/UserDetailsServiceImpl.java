@@ -22,13 +22,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Usuario u = repo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-        // 👉 usar el nombre del rol tal cual está en la BD: ADMIN, PROFESOR, ALUMNO
-        String authority = u.getRol().getNombre().toUpperCase(); // por si acaso
+        // nombre de rol en BD: ADMIN / PROFESOR / ALUMNO
+        String roleName = u.getRol().getNombre().toUpperCase();
 
         return User.withUsername(u.getUsername())
                 .password(u.getPassword())
-                .authorities(List.of(new SimpleGrantedAuthority(authority)))
-                // si en tu tabla "activo" = true significa que SÍ puede entrar:
+                // IMPORTANTÍSIMO: Spring espera ROLE_ADMIN cuando usas hasRole('ADMIN')
+                .authorities(List.of(new SimpleGrantedAuthority("ROLE_" + roleName)))
                 .accountLocked(!u.getActivo())
                 .disabled(!u.getActivo())
                 .build();
