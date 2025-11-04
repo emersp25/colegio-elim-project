@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4d20141e-0f36-4981-aff3-d21134fdc907" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/docs/ER_proyect_elim.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/UML.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ContactForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ContactForm.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +74,7 @@
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/emers/Documents/UMG/8. OCTAVO/DESARROLLO WEB/Proyecto/colegio-elim-project/frontend/src/assets",
+    "last_opened_file_path": "C:/Users/emers/Documents/UMG/8. OCTAVO/DESARROLLO WEB/Proyecto/colegio-elim-project/docs",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -89,14 +90,15 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\emers\Documents\UMG\8. OCTAVO\DESARROLLO WEB\Proyecto\colegio-elim-project\docs" />
       <recent name="C:\Users\emers\Documents\UMG\8. OCTAVO\DESARROLLO WEB\Proyecto\colegio-elim-project\frontend\src\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\emers\Documents\UMG\8. OCTAVO\DESARROLLO WEB\Proyecto\colegio-elim-project\docs" />
       <recent name="C:\Users\emers\Documents\UMG\8. OCTAVO\DESARROLLO WEB\Proyecto\colegio-elim-project\backend\src\main\resources\templates" />
       <recent name="C:\Users\emers\Documents\UMG\8. OCTAVO\DESARROLLO WEB\Proyecto\colegio-elim-project\backend\src\main\resources\template" />
       <recent name="C:\Users\emers\Documents\UMG\8. OCTAVO\DESARROLLO WEB\Proyecto\colegio-elim-project\backend\src\main\resources\templates\email\email" />
       <recent name="C:\Users\emers\Documents\UMG\8. OCTAVO\DESARROLLO WEB\Proyecto\colegio-elim-project\backend\src\main\resources\static\css" />
-      <recent name="C:\Users\emers\Documents\UMG\8. OCTAVO\DESARROLLO WEB\Proyecto\colegio-elim-project\backend\src\main\resources\templates\email" />
     </key>
   </component>
   <component name="RunManager">
@@ -188,7 +190,8 @@
       <workItem from="1762102571548" duration="415000" />
       <workItem from="1762102992129" duration="30312000" />
       <workItem from="1762215514836" duration="30312000" />
-      <workItem from="1762262544654" duration="2304000" />
+      <workItem from="1762262544654" duration="2404000" />
+      <workItem from="1762269185724" duration="1420000" />
     </task>
     <servers />
   </component>
