@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuevo Mensaje de Colegio Elim</title>
+    <link rel="stylesheet" href="../../static/css/contacto-email.css">
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h2>Nuevo Mensaje de Colegio Elim</h2>
+        <p>Has recibido un nuevo mensaje desde tu formulario de contacto</p>
+    </div>
+
+    <div class="content">
+        <div class="field">
+            <div class="field-label">
+                <span class="icon">👤</span> Nombre Completo
+            </div>
+            <div class="field-value" th:text="${nombre}">Juan Pérez García</div>
+        </div>
+
+        <div class="field">
+            <div class="field-label">
+                <span class="icon">✉️</span> Correo Electrónico
+            </div>
+            <div class="field-value">
+                <a th:href="'mailto:' + ${email}" th:text="${email}">informacionelim@gmail.com</a>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="field-label">
+                <span class="icon">📱</span> Teléfono
+            </div>
+            <div class="field-value">
+                <a th:href="'tel:' + ${telefono}" th:text="${telefono}">+502 1234-5678</a>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="field-label">
+                <span class="icon">💬</span> Mensaje
+            </div>
+            <div class="message-box">
+                <div class="field-value" th:text="${mensaje}">
+                    Este es un mensaje de ejemplo.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Este mensaje fue enviado desde el formulario de Colegio Elim</p>
+    </div>
+</div>
+</body>
+</html>
