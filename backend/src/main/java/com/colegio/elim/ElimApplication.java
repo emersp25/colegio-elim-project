@@ -2,12 +2,13 @@ package com.colegio.elim;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class ElimApplication {
+public class ElimApplication extends SpringBootServletInitializer {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ElimApplication.class, args);
+    public static void main(String[] args) {
+        SpringApplication.run(ElimApplication.class, args);
         System.out.println("Aplicación iniciada correctamente.");
-	}
+    }
 }

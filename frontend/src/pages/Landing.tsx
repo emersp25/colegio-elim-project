@@ -105,7 +105,7 @@ export default function Landing() {
                         </p>
                     </div>
 
-                    {/* 👇 carrusel agregado debajo del texto del hero */}
+                    {/*carrusel agregado debajo del texto del hero */}
                     <div className="mt-10">
                         <PhotoCarousel images={carouselImages} autoPlay interval={5000} />
                     </div>

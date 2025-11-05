@@ -1,7 +1,11 @@
 import axios from 'axios'
 
-const api = axios.create({
+/*const api = axios.create({
     baseURL: 'http://localhost:8080',
+})*/
+
+const api = axios.create({
+    baseURL: 'http://93.127.139.74:8080/ELIM',
 })
 
 api.interceptors.request.use(config => {
@@ -13,7 +17,7 @@ api.interceptors.request.use(config => {
     return config
 })
 
-// 👇 si el token no sirve, lo sacamos
+// si el token no sirve, lo sacamos
 api.interceptors.response.use(
     res => res,
     err => {

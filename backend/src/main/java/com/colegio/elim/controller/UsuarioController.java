@@ -8,13 +8,12 @@ import com.colegio.elim.model.entity.Usuario;
 import com.colegio.elim.repository.RolRepository;
 import com.colegio.elim.repository.UsuarioRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable; // <- IMPORTA ESTE
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize; // <- IMPORTA ESTE
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 @SuppressWarnings("DuplicatedCode")
 @RestController
 @RequestMapping("/api/usuarios")

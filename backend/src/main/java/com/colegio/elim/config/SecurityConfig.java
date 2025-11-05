@@ -45,6 +45,17 @@ public class SecurityConfig {
         http.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.authorizeHttpRequests(auth -> auth
+                // recursos estáticos y raíz
+                .requestMatchers("/",
+                        "/index.html",
+                        "/assets/**",
+                        "/favicon.ico",
+                        "/login",
+                        "/dashboard/admin",
+                        "/dashboard/profesor",
+                        "/dashboard/alumno")
+                .permitAll()
+
                 // Swagger / OpenAPI
                 .requestMatchers("/v3/api-docs/**","/swagger-ui/**","/swagger-ui.html").permitAll()
 
@@ -82,11 +93,12 @@ public class SecurityConfig {
                 // Entregas (alumno entrega, prof/admin revisan; el controller ya afina)
                 .requestMatchers("/api/entregas/**").hasAnyRole("ADMIN","PROFESOR","ALUMNO")
 
-                // ✅ Notas (esto era lo que faltaba para tu dashboard alumno)
+                // Notas
                 .requestMatchers("/api/notas/**").hasAnyRole("ADMIN","PROFESOR","ALUMNO")
 
                 // cualquier otra cosa: autenticado
                 .anyRequest().authenticated()
+
         );
 
         http.exceptionHandling(ex -> ex.authenticationEntryPoint(jwtEntryPoint));
@@ -99,4 +111,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration cfg) throws Exception {
         return cfg.getAuthenticationManager();
     }
+
+
 }
